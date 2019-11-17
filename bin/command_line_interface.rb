@@ -50,7 +50,7 @@ def select_from_menu
     puts ""
     puts "[1] Sign up"
     puts ""
-    puts "[2] Find a principal investigator studying in your discipline"
+    puts "[2] Find a principal investigator"
     puts ""
     puts "[3] Search a project"
     puts ""
@@ -75,7 +75,7 @@ def sign_user_up
     puts "Please enter your name:"
     puts ""
     puts ""
-    name = gets.chomp
+    user_name = gets.chomp
     puts ""
     puts "--------------------------------------"
     puts "Please select and type your discpline:"
@@ -96,30 +96,86 @@ def sign_user_up
     puts "--------------------------------------"
     puts ""
     puts ""
-    discipline = gets.chomp
-    Student.create(name: name, discipline: discipline)
+    user_discipline = gets.chomp
+    Student.create(name: user_name, discipline: user_discipline)
     puts ""
     puts "" 
+    puts "Succesfully added to our list!".green.bold
+    puts ""
+    puts ""
 end
 
-# def find_a_pi
+def find_by_discipline
+    puts ""
+    puts ""
+    puts "-----------------------------------------------------------------------------------"
+    puts "Please select and type a discpline to see which PIs are working in that discipline:"
+    puts "-----------------------------------------------------------------------------------"
+    puts "Biochemistry"
+    puts ""
+    puts "Plant Science"
+    puts ""
+    puts "Cancer Research"
+    puts ""
+    puts "Genetics"
+    puts ""
+    puts "Neuroscience"
+    puts ""
+    puts "Molecular Biology"
+    puts ""
+    puts "Microbiology"
+    puts "--------------------------------------"
+    puts ""
+    puts ""
+    user_discipline = gets.chomp
+    PrincipalInvestigator.all.select do |pi|
+    if pi.discipline == user_discipline
+        puts ""
+        puts ""
+        puts "#{pi.name} is working in #{user_discipline} field!".green.bold
+        puts ""
+        puts ""
+    end
+    end 
+end
 
+# def search_project
+#     puts ""
+#     puts ""
+#     puts "----------------------------------------------------------"
+#     puts "Please type a name of the PI to see their current projects"
+#     puts "----------------------------------------------------------"
+#     puts ""
+#     puts ""
+#     user_pi = gets.chomp
+#     Project.all.select do |project|
+#         if project.principal_investigator.name == user_pi
+#             puts ""
+#             puts ""
+#             puts "#{pi.name} is working in #{user_discipline} field!".green.bold
+#             puts ""
+#             puts ""
+#         end
+#     end
 # end
 
 def get_command    
     loop do
     user_input = select_from_menu
         if user_input == "1"
-            user = sign_user_up
-            puts "Succesfully added to our list!".green.bold
-            puts ""
-            puts ""
+            sign_user_up
+        elsif 
+            user_input == "2"
+            find_by_discipline 
         elsif
             user_input == "7"
             puts "Good bye!".green.bold
             puts ""
             puts ""
             break
+        # elsif
+        #     user_input == "3"
+        #     search_project
         else
             puts ""
             puts "Please select an option from menu!".green.bold
