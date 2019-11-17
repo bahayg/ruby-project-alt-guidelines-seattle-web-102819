@@ -6,14 +6,13 @@ def greet
     puts ""
     puts ""
     puts ""
+    puts ""
     puts " ____                     _                 _       _____   _               _ ".green.bold   
     puts "|  _ \\   _ __    ___     (_)   ___    ___  | |_    |  ___| (_)  _ __     __| |   ___   _ __ ".green.bold 
     puts "| |_) | | '__|  / _ \\    | |  / _ \\  / __| | __|   | |_    | | | '_ \\   / _` |  / _ \\ | '__|".green.bold 
     puts "|  __/  | |    | (_) |   | | |  __/ | (__  | |_    |  _|   | | | | | | | (_| | |  __/ | |".green.bold    
     puts "|_|     |_|     \\___/   _/ |  \\___|  \\___|  \\__|   |_|     |_| |_| |_|  \\__,_|  \\___| |_|".green.bold    
     puts "                       |__/".green.bold                                                                 
-
-    puts ""
     puts ""
     puts ""
     puts ""
@@ -23,7 +22,49 @@ def greet
     puts ""
     puts ""
     puts ""
+end
+
+def menu_selection
     puts ""
+    puts ""
+    puts ""
+    puts "Please enter a command to proceed".green.bold 
+    puts ""
+    puts ""
+    puts "ADD = adds your name to our list".green.bold 
+    puts ""
+    puts "SEARCH = searches professors by their discipline".green.bold 
+    puts ""
+    puts "UPDATE = updates your search".green.bold 
+    puts ""
+    puts "REMOVE = removes your name from our list".green.bold 
+    puts ""
+    puts ""
+end
+
+
+def user_menu_selection
+  menu_selection
+  puts ""
+  user_input = gets.chomp
+  puts ""
+  if user_input == "ADD"
+    create_new_student
+    puts "You are in our list!"
+  elsif 
+    user_input == "SEARCH"
+    create_new_student
+    find_by_discipline(discipline)
+  elsif
+    user_input == "UPDATE"
+    create_new_student
+    update_discipline
+  else
+    user_input == "REMOVE"
+    # create_new_student
+    remove_student  
+  end
+menu_selection
 end
 
 def name_method
@@ -124,10 +165,14 @@ end
 
 
 greet
-new_student = create_new_student
-find_by_discipline(new_student.discipline)
-update_discipline
-remove_student
+user_menu_selection
+# menu_selection
+# new_student = create_new_student
+# find_by_discipline(new_student.discipline)
+# update_discipline
+# remove_student
 
 
 # puts "If you would like to know what these professors are working on, plesase enter your name and type yes."
+
+
