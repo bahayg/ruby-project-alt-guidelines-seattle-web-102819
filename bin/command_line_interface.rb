@@ -142,22 +142,62 @@ end
 # def search_project
 #     puts ""
 #     puts ""
-#     puts "----------------------------------------------------------"
-#     puts "Please type a name of the PI to see their current projects"
-#     puts "----------------------------------------------------------"
+#     puts "--------------------------------------------------"
+#     puts "Please type a name of a PI to see related projects"
+#     puts "--------------------------------------------------"
 #     puts ""
 #     puts ""
 #     user_pi = gets.chomp
-#     Project.all.select do |project|
-#         if project.principal_investigator.name == user_pi
-#             puts ""
-#             puts ""
-#             puts "#{pi.name} is working in #{user_discipline} field!".green.bold
-#             puts ""
-#             puts ""
-#         end
+#     pi = PrincipalInvestigator.all.find do |pi|
+#         pi.name == user_pi  
 #     end
+#     projects = Project.all.select do |project|
+#                 project.principal_investigator_id == pi.id
+#     end
+#         if projects.length == 0
+#             puts "This PI does not have a project!"
+#         else   
+#             project_names = projects.select do |project| 
+#                 project.name 
+
+#             puts ""
+#             puts ""
+#             puts "#{user_pi} is working on #{project_names}!".green.bold
+#             puts ""
+#             puts ""
+#             binding.pry 
+#             end
+#         end
 # end
+
+def add_a_project
+    puts ""
+    puts ""
+    puts "------------------------------------"
+    puts "Please type the name of your project"
+    puts "------------------------------------"
+    puts ""
+    project_name = gets.chomp
+    puts ""
+    puts "-------------------------------"
+    puts "Please type the name of your PI"
+    puts "-------------------------------"
+    puts ""
+    project_PI = gets.chomp
+    puts ""
+    puts "-----------------------------"
+    puts "Please put the type of grant"
+    puts "-----------------------------"
+    puts ""
+    project_grant_type = gets.chomp
+    puts ""
+    puts "-------------------------------"
+    puts "Please type the amount of grant"
+    puts "-------------------------------"
+    puts ""
+    Project.create(name: user_name, discipline: user_discipline)
+
+end
 
 def get_command    
     loop do
@@ -168,14 +208,14 @@ def get_command
             user_input == "2"
             find_by_discipline 
         elsif
+            user_input == "3"
+            search_project
+        elsif
             user_input == "7"
             puts "Good bye!".green.bold
             puts ""
             puts ""
             break
-        # elsif
-        #     user_input == "3"
-        #     search_project
         else
             puts ""
             puts "Please select an option from menu!".green.bold
@@ -186,4 +226,6 @@ def get_command
 end
 
 greet
+# search_project
 get_command
+
