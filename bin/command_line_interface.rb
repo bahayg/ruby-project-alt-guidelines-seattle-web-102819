@@ -1,5 +1,6 @@
 require 'colorize'
 require_relative '../config/environment'
+require 'pry'
 
 def greet
     puts ""
@@ -128,50 +129,54 @@ def find_by_discipline
     puts ""
     puts ""
     user_discipline = gets.chomp
-    PrincipalInvestigator.all.select do |pi|
-    if pi.discipline == user_discipline
-        puts ""
-        puts ""
-        puts "#{pi.name} is working in #{user_discipline} field!".green.bold
-        puts ""
-        puts ""
-    end
-    end 
+    prof = PrincipalInvestigator.find_by(discipline: user_discipline)
+    puts ""
+    puts ""
+    puts "#{prof.name} is working in #{user_discipline} field!".green.bold
+    puts ""
+    puts ""
+    
+    
 end
 
-# def search_project
-#     puts ""
-#     puts ""
-#     puts "--------------------------------------------------"
-#     puts "Please type a name of a PI to see related projects"
-#     puts "--------------------------------------------------"
-#     puts ""
-#     puts ""
-#     user_pi = gets.chomp
-#     pi = PrincipalInvestigator.all.find do |pi|
-#         pi.name == user_pi  
-#     end
-#     projects = Project.all.select do |project|
-#                 project.principal_investigator_id == pi.id
-#     end
-#         if projects.length == 0
-#             puts "This PI does not have a project!"
-#         else   
-#             project_names = projects.select do |project| 
-#                 project.name 
-
-#             puts ""
-#             puts ""
-#             puts "#{user_pi} is working on #{project_names}!".green.bold
-#             puts ""
-#             puts ""
-#             binding.pry 
-#             end
-#         end
-# end
-
-def add_a_project
+def search_project
     puts ""
+    puts ""
+    puts "--------------------------------------------------"
+    puts "Please type a name of a PI to see related projects"
+    puts "--------------------------------------------------"
+    puts ""
+    puts ""
+    user_pi = gets.chomp
+    prof = PrincipalInvestigator.find_by(name: user_pi)
+    projects = Project.where(principal_investigator_id: prof.id)
+        if projects.length == 0
+            puts ""
+            puts ""
+            puts "#{user_pi} does not have any project!".green.bold
+            puts ""
+            puts ""
+        else   
+            project_names = projects.map do |p| p.name
+            end   
+            puts ""
+            puts ""
+            puts "#{user_pi} is working on the project(s) named: ".green.bold
+            puts ""
+            puts "#{project_names}".green.bold
+            puts ""
+            puts ""       
+        end
+end
+
+def add_project
+    puts ""
+    puts ""
+    puts "---------------------"
+    puts "Please type your name"
+    puts "---------------------"
+    puts ""
+    student_name = gets.chomp
     puts ""
     puts "------------------------------------"
     puts "Please type the name of your project"
@@ -195,8 +200,60 @@ def add_a_project
     puts "Please type the amount of grant"
     puts "-------------------------------"
     puts ""
-    Project.create(name: user_name, discipline: user_discipline)
+    project_grant_amount = gets.chomp
+    puts ""
+    Project.create(student_id: student_name, principal_investigator_id: project_PI, name: project_name, grant_amount: project_grant_amount, grant_type: project_grant_type)
+    puts ""
+    puts "" 
+    puts "Succesfully added your project to our database!".green.bold
+    puts ""
+    puts ""
+end
 
+def edit_project
+    puts ""
+    puts ""
+    puts "---------------------"
+    puts "Please type your name"
+    puts "---------------------"
+    puts ""
+    puts ""
+    user_name = gets.chomp
+    puts ""
+    puts ""
+    puts "------------------------------------"
+    puts "Please type the name of your project"
+    puts "------------------------------------"
+    puts ""
+    puts ""
+    user_project = gets.chomp
+    puts ""
+end
+
+def remove_project
+    puts ""
+    puts ""
+    puts "---------------------"
+    puts "Please type your name"
+    puts "---------------------"
+    puts ""
+    puts ""
+    user_name = gets.chomp
+    puts ""
+    puts ""
+    puts "------------------------------------"
+    puts "Please type the name of your project"
+    puts "------------------------------------"
+    puts ""
+    puts ""
+    user_project = gets.chomp
+    puts ""
+    Project.where(student_id: user_name, name: user_project).destroy_all
+    puts ""
+    puts ""
+    puts "Your '#{user_project}' project is removed from our database!".green.bold
+    puts ""
+    puts ""
 end
 
 def get_command    
@@ -210,6 +267,15 @@ def get_command
         elsif
             user_input == "3"
             search_project
+        elsif
+            user_input == "4"
+            add_project
+        elsif
+            user_input == "5"
+            edit_project
+        elsif
+            user_input == "6"
+            remove_project
         elsif
             user_input == "7"
             puts "Good bye!".green.bold
@@ -225,7 +291,7 @@ def get_command
     end
 end
 
-greet
-# search_project
-get_command
 
+# greet
+# get_command
+edit_project
